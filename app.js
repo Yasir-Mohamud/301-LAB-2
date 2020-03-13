@@ -1,7 +1,7 @@
 'use strict';
 
-let notKeywordArr = [];
-let imageCollection = [];
+const keywordArr = [];
+const imageCollection = [];
 function Animal (obj) {
   this.image_url = obj.image_url;
   this.title = obj.title;
@@ -23,29 +23,32 @@ Animal.prototype.render = function() {
 
   $('main').append($section);
 };
-const selectKeywords = () => {
-  // imageCollection.forEach(obj=>{
-  //   if(!notKeywordArr.includes(obj.keyword)) {
-  //     !notKeywordArr.push(obj.keyword)
-  //     console.log('hello' + !notKeywordArr)
-  //   }
-  // })
 
-  let $select = $('<select></select>').html();
-  $select.find('option').j
-
-
-
+Animal.prototype.dropMenu = function () {
+  if(!keywordArr.includes(this.keyword)) {
+    keywordArr.sort().push(this.keyword)
+    let $option = $('<option></option>')
+    $option.text(this.keyword)
+    $('select').append($option);
+  }
 }
+
+
+
+
 
 
 
 $.ajax('data/page-1.json' , {METHOD:'GET' , DATATYPE:'JSON'})
   .then(data => {
     data.forEach(animal => {
-      console.log(data);
+
       new Animal(animal).render();
-      console.log(animal)
+      new Animal(animal).dropMenu();
+      new Animal(animal).filter();
+     
+      console.log(animal.keyword);
     });
-    selectKeywords();
+     
+    
   });
